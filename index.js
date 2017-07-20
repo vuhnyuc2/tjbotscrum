@@ -28,6 +28,7 @@ var credentials = {
     }
 }
 var tj = new TJBot(hardware, configuration, credentials);
+var current = [];
 
 function listen(){
   tj.listen(function(msg){
@@ -38,42 +39,41 @@ function listen(){
     }else if(current.includes('Watson')){
       current.concat(" " + msg);
     }
-      //Gives how many points away from your goal
-      if (current.includes("points") && current.includes("away") && current.includes("goal")) {
-        tj.speak("Gives how many points away from your goal");
-        ScrumMaster.find_stories(tj);
+    //Gives how many points away from your goal
+    if (current.includes("points") && current.includes("away") && current.includes("goal")) {
+      tj.speak("Gives how many points away from your goal");
+      ScrumMaster.find_stories(tj);
+      current = "";
+    }
+    //Gives % of stories completed
+    else if ((current.includes("percent")|(current.includes("percentage"))) && current.includes("stories") && current.includes("completed")) {
+      current = "";
+      tj.speak("Gives % of stories completed");
+    }
+    //Gives number of stories in a current state
+    else if (current.includes("number of stories")) {
+      if (current.includes("not started")) {
         current = "";
+        tj.speak("Gives number of stories not started in a current state");
       }
-      //Gives % of stories completed
-      else if ((current.includes("percent")|(current.includes("percentage"))) && current.includes("stories") && current.includes("completed")) {
+      else if (current.includes("in progress")) {
         current = "";
-        tj.speak("Gives % of stories completed");
+        tj.speak("Gives number of stories in progress in a current state");
       }
-      //Gives number of stories in a current state
-      else if (current.includes("number of stories")) {
-        if (current.includes("not started")) {
-          current = "";
-          tj.speak("Gives number of stories not started in a current state");
-        }
-        else if (current.includes("in progress")) {
-          current = "";
-          tj.speak("Gives number of stories in progress in a current state");
-        }
-        else if (current.includes("done") | current.includes("completed")) {
-          current = "";
-          tj.speak("Gives number of stories done in a current state");
-        }
-      }
-      //Creates a story using jira api
-      else if (current.includes("create") && current.includes("story")) {
+      else if (current.includes("done") | current.includes("completed")) {
         current = "";
-        tj.speak("Creates a story using jira api");
+        tj.speak("Gives number of stories done in a current state");
       }
-      //Closes or move a story
-      else if ((current.includes("move") | current.includes("close")) && (current.includes("story"))) {
-        current = "";
-        tj.speak("Closes or move a story");
-      }
+    }
+    //Creates a story using jira api
+    else if (current.includes("create") && current.includes("story")) {
+      current = "";
+      tj.speak("Creates a story using jira api");
+    }
+    //Closes or move a story
+    else if ((current.includes("move") | current.includes("close")) && (current.includes("story"))) {
+      current = "";
+      tj.speak("Closes or move a story");
     }
   });
 }
