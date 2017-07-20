@@ -33,51 +33,44 @@ function listen(){
   tj.listen(function(msg){
     console.log(current);
     //Resets if there is a current watson call, otherwise adds watson to check for function call
-    if (msg.startsWith(tj.configuration.robot.name)) {
-      if (current.contains("Watson")) {
-        current = "";
-      }
-      else {
-        current.concat(msg);
-      }
+    if(msg.includes('Watson')){
+      current = msg;
+    }else if(current.includes('Watson')){
+      current.concat(" " + msg);
     }
-
-    if (current.contains("Watson")) {
-      current.concat(" ");
-      current.concat(msg);
       //Gives how many points away from your goal
-      if (msg.contains("points") && msg.contains("away") && msg.contains("goal")) {
+      if (current.includes("points") && current.includes("away") && current.includes("goal")) {
         tj.speak("Gives how many points away from your goal");
         ScrumMaster.find_stories(tj);
         current = "";
       }
       //Gives % of stories completed
-      else if ((msg.contains("percent")|(msg.contains("percentage"))) && msg.contains("stories") && msg.contains("completed")) {
+      else if ((current.includes("percent")|(current.includes("percentage"))) && current.includes("stories") && current.includes("completed")) {
         current = "";
         tj.speak("Gives % of stories completed");
       }
       //Gives number of stories in a current state
-      else if (msg.contains("number of stories")) {
-        if (msg.contains("not started")) {
+      else if (current.includes("number of stories")) {
+        if (current.includes("not started")) {
           current = "";
           tj.speak("Gives number of stories not started in a current state");
         }
-        else if (msg.contains("in progress")) {
+        else if (current.includes("in progress")) {
           current = "";
           tj.speak("Gives number of stories in progress in a current state");
         }
-        else if (msg.contains("done") | msg.contains("completed")) {
+        else if (current.includes("done") | current.includes("completed")) {
           current = "";
           tj.speak("Gives number of stories done in a current state");
         }
       }
       //Creates a story using jira api
-      else if (msg.contains("create") && msg.contains("story")) {
+      else if (current.includes("create") && current.includes("story")) {
         current = "";
         tj.speak("Creates a story using jira api");
       }
       //Closes or move a story
-      else if ((msg.contains("move") | msg.contains("close")) && (msg.contains("story"))) {
+      else if ((current.includes("move") | current.includes("close")) && (current.includes("story"))) {
         current = "";
         tj.speak("Closes or move a story");
       }
