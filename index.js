@@ -48,6 +48,7 @@ function listen(){
       //Gives how many points away from your goal
       if (msg.contains("points") && msg.contains("away") && msg.contains("goal")) {
         tj.speak("Gives how many points away from your goal");
+        ScrumMaster.find_stories(tj);
         current = "";
       }
       //Gives % of stories completed
