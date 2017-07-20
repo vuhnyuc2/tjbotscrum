@@ -1,16 +1,23 @@
 const Story = require('./story');
-const Jira = require('./jira').Jira()
-// const JiraApi = require('./node_modules/jira').JiraApi;
+var jira = require('./jira');
 
 
 exports.find_stories = function(tj){
-  Jira.get_users_issues('a;ldfjiajfl', function(suc,err){
-    if(!err){
-      tj.speak("You have " + suc.length + " results");
-    }
+  jira.get_users_issues('a;ldfjiajfl', function(suc,err){  
+if(!err){
+     	console.log("did have an error");
+	console.log(suc);
+    }else{
+	console.log(err.statusCode);
+}
   });
 }
 
 exports.create_story = function(tj){
 
+}
+
+exports.get_cookie = function(done){
+  console.log('get dah cookie');
+  jira.get_cookie(done);
 }
