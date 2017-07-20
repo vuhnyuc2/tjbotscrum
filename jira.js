@@ -22,7 +22,7 @@ exports.get_cookie = function(){
   }
 }
 
-exports.get_users_issues(user, done){
+exports.get_users_issues = function(user, done){
   var search_args = {
     headers : {
       'cookie' : credentials.cookie,
