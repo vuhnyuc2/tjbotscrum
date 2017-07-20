@@ -31,13 +31,55 @@ var tj = new TJBot(hardware, configuration, credentials);
 
 function listen(){
   tj.listen(function(msg){
-    console.log("msg");
-    if (msg.includes('check stories')){
-      // check stories
-      ScrumMaster.find_stories();
+    console.log(current);
+    //Resets if there is a current watson call, otherwise adds watson to check for function call
+    if (msg.startsWith(tj.configuration.robot.name)) {
+      if (current.contains("Watson")) {
+        current = "";
+      }
+      else {
+        current.concat(msg);
+      }
     }
-    else if(msg.includes('create')){
-      // create new story
+
+    if (current.contains("Watson")) {
+      current.concat(" ");
+      current.concat(msg);
+      //Gives how many points away from your goal
+      if (msg.contains("points") && msg.contains("away") && msg.contains("goal")) {
+        tj.speak("Gives how many points away from your goal");
+        current = "";
+      }
+      //Gives % of stories completed
+      else if ((msg.contains("percent")|(msg.contains("percentage"))) && msg.contains("stories") && msg.contains("completed")) {
+        current = "";
+        tj.speak("Gives % of stories completed");
+      }
+      //Gives number of stories in a current state
+      else if (msg.contains("number of stories")) {
+        if (msg.contains("not started")) {
+          current = "";
+          tj.speak("Gives number of stories not started in a current state");
+        }
+        else if (msg.contains("in progress")) {
+          current = "";
+          tj.speak("Gives number of stories in progress in a current state");
+        }
+        else if (msg.contains("done") | msg.contains("completed")) {
+          current = "";
+          tj.speak("Gives number of stories done in a current state");
+        }
+      }
+      //Creates a story using jira api
+      else if (msg.contains("create") && msg.contains("story")) {
+        current = "";
+        tj.speak("Creates a story using jira api");
+      }
+      //Closes or move a story
+      else if ((msg.contains("move") | msg.contains("close")) && (msg.contains("story"))) {
+        current = "";
+        tj.speak("Closes or move a story");
+      }
     }
   });
 }
