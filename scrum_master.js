@@ -1,5 +1,5 @@
 const Story = require('./story');
-const Jira = require('./jira')
+const Jira = require('./jira').Jira()
 // const JiraApi = require('./node_modules/jira').JiraApi;
 
 
