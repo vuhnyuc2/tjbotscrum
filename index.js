@@ -1,6 +1,10 @@
 const TJBot = require('./node_modules/tjbot');
 const ScrumMaster = require('./scrum_master');
 
+const commands = [
+  ['watson', 'stories', 'completed']
+]
+
 var hardware = ['led', 'servo', 'microphone', 'speaker'];
 var configuration = {
     robot: {
