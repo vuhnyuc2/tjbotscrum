@@ -42,7 +42,7 @@ exports.get_users_issues = function(user, done){
   });
 }
 
-exports.set_task_status(){
+exports.set_task_status = function(){
 
 }
 
