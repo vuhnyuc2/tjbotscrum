@@ -1,6 +1,6 @@
-const client = require('node-rest-client').Client;
+const Client = require('node-rest-client').Client;
+var client = new Client();
 
-exports.Jira = function(){
   var credentials = {
     data : {
       "username":"Shoaib.Akbar1@ibm.com",
@@ -11,28 +11,32 @@ exports.Jira = function(){
     }
   }
 
-  this.get_cookie = function(){
+  exports.get_cookie = function(done){
     if(!credentials.hasOwnProperty('cookie')){
-      client.post("https://jira.atlassian.com/rest/auth/1/session", credentials, function(data,response){
+      client.post("https://scrumtj.atlassian.net/rest/auth/1/session", credentials, function(data,response){
+        console.log(response.statusCode);
         if(response.statusCode == 200){
           console.log("received cookie");
           var session = data.session;
-          credentials.cookie = session.name + "=" + session.cookie;
+          credentials = session.name + "=" + session.value;
+	  done();
         }
       });
     }
   }
-  this.get_users_issues = function(user, done){
+  exports.get_users_issues = function(user, done){
+    console.log(credentials);
     var search_args = {
       headers : {
-        'cookie' : credentials.cookie,
+        'cookie' : credentials,
         'Content-Type' : 'application/json'
       },
       data : {
-        'jql' : 'project=TSB-46 AND status=done',
+        'jql' : 'status=done',
+	'maxResults' : '1'
       }
     }
-    client.post("https://jira.atlassian.co/rest/api/2/search", credentials.cookie, search_args, function(data, response){
+    client.post("https://scrumtj.atlassian.net/rest/api/2/search", search_args, function(data, response){
       if(response.statusCode == 200){
         done(data);
       }
@@ -42,10 +46,7 @@ exports.Jira = function(){
     });
   }
 
-  this.set_task_status = function(){
+  exports.set_task_status = function(){
 
   }
 
-  this.get_cookie();
-
-}
