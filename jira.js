@@ -47,4 +47,5 @@ exports.Jira = function(){
   }
 
   this.get_cookie();
+
 }
