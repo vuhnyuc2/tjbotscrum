@@ -33,7 +33,7 @@ function listen(){
   tj.listen(function(msg){
     console.log(current);
     //Resets if there is a current watson call, otherwise adds watson to check for function call
-    if(msg.includes('Watson')){
+    if(msg.startsWith('Watson')){
       current = msg;
     }else if(current.includes('Watson')){
       current.concat(" " + msg);
