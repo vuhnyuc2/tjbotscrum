@@ -5,10 +5,10 @@ const commands = [
   ['watson', 'stories', 'completed']
 ]
 
-var hardware = ['led', 'servo', 'microphone', 'speaker'];
+var hardware = ['led', 'microphone', 'speaker'];
 var configuration = {
     robot: {
-        gender: 'female'
+        gender: 'male'
     },
     listen: {
         language: 'en-US'

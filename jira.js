@@ -29,7 +29,7 @@ exports.get_users_issues(user, done){
       'Content-Type' : 'application/json'
     },
     data : {
-      'jql' : 'project=TSB-46 AND assignee='+user,
+      'jql' : 'project=TSB-46 AND status=done',
     }
   }
   client.post("https://jira.atlassian.co/rest/api/2/search", credentials.cookie, search_args, function(data, response){
@@ -43,7 +43,7 @@ exports.get_users_issues(user, done){
 }
 
 exports.set_task_status(){
-  
+
 }
 
 get_cookie();
