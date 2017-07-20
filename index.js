@@ -3,12 +3,13 @@ const ScrumMaster = require('./scrum_master');
 
 const commands = [
   ['watson', 'stories', 'completed']
-]
+];
 
 var hardware = ['microphone', 'speaker'];
 var configuration = {
     robot: {
-        gender: 'male'
+        gender: 'male',
+        name: 'Watson'
     },
     listen: {
         language: 'en-US'
@@ -34,10 +35,10 @@ function listen(){
   tj.listen(function(msg){
     console.log(current);
     //Resets if there is a current watson call, otherwise adds watson to check for function call
-    if(msg.startsWith('Watson')){
+    if(msg.includes('Watson')){
       current = msg;
     }else if(current.includes('Watson')){
-      current.concat(" " + msg);
+      current = current.concat(msg);
     }
     //Gives how many points away from your goal
     if (current.includes("points") && current.includes("away") && current.includes("goal")) {
