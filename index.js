@@ -1,5 +1,6 @@
 const TJBot = require('./node_modules/tjbot');
 const ScrumMaster = require('./scrum_master');
+Num2Word = require('number-to-words');
 
 const commands = [
   ['watson', 'stories', 'completed']
@@ -59,15 +60,21 @@ function listen(){
       //Gives number of stories in a current state
       else if (current.includes("number") && current.includes("stories")) {
         if (current.includes("not started") | current.includes("new")) {
-	        tj.speak(ScrumMaster.get_num_stories_todo());
+	  ScrumMaster.stories_todo(function(num){
+		tj.speak(Num2Word.toWords(num));	
+	  });
           current = "";
         }
         else if (current.includes("progress")) {
-          tj.speak(ScrumMaster.get_num_stories_doing());
+          ScrumMaster.stories_doing(function(num){
+		tj.speak(Num2Word.toWords(num));	
+	  });	
           current = "";
         }
-        else if (current.includes("done") | current.includes("completed")) {
-          tj.speak(ScrumMaster.get_num_stories_done());
+        else if (current.includes("done") | current.includes("completed") | current.includes("complete") | current.includes("finished")) {
+          ScrumMaster.stories_done(function(num){
+		tj.speak(Num2Word.toWords(num));	
+	  });
           current = "";
         }
       }
