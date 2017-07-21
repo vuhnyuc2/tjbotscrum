@@ -120,16 +120,18 @@ function listen(){
       else if (current.includes("move") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
           if (t === 0) {
             tj.speak("Please tell me the story name");
+            t += 1;
           }
-          if (t === 1) {
+          if (t === 2) {
             tj.speak("Please tell me the status you want to set it to");
+            t += 1;
           }
-          if (current.includes("name is") && (current.length > current.indexOf("name is") + 7) && (t==0)) {
+          if (current.includes("name is") && (current.length > current.indexOf("name is") + 7) && (t==1)) {
 	             movename = current.substring(current.indexOf("name is") + 8, current.length);
       	       t = t + 1;
                console.log(movename);
 	        }
-          if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 ) && (t==1)) {
+          if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 ) && (t==3)) {
             status = current.substring(current.indexOf("status is") + 10, current.length);
             console.log(status);
             current = "";
