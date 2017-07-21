@@ -1,10 +1,14 @@
 var scrum = require("./scrum_master");
 var team_members = [];
+var jira = require('./jira');
 
 var start = function(){
-  scrum.stories_done(function(res){
+  jira.create_story("test", "test", "Bug", "admin", function(res){
     console.log(res);
   });
+  /*jira.get_projects(function(res){
+    console.log(res);
+  });*/
 }
 
 scrum.get_cookie(function(){

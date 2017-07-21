@@ -35,7 +35,7 @@ if(!err){
 exports.get_team_info = function(done){
   jira.get_team(function(suc,err){
     console.log(suc);
-    team_members = suc;
+    team_members = suc['values'];
     done();
   });
 }
@@ -43,15 +43,14 @@ exports.get_team_info = function(done){
 exports.get_stories_by_person = function(disp_name, done){
   var name = "";
   for(var i = 0; team_members.length; i++){
-    if(team_members['displayName'].includes(disp_name)){
-      name = team_members['name'];
+    if(team_members[i]['displayName'].includes(disp_name)){
+      name = team_members[i]['key'];
       break;
     }
   }
+	console.log(name);
   jira.get_stories_person(name, function(suc,err){
-    console.log(err.statusCode);
-    console.log(suc);
-    done(suc.length);
+	  done(suc);
   });
 }
 

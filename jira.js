@@ -24,8 +24,28 @@ var client = new Client();
       });
     }
   }
+  
+  exports.get_projects = function(done){
+    var search_args = {
+      headers : {
+        'cookie' : credentials,
+        'Content-Type' : 'application/json'
+      },
+      parameters : {
+        
+      }
+    }
+    client.get("https://scrumtj.atlassian.net/rest/api/2/project", search_args, function(data, response){
+      if(response.statusCode == 200){
+        done(data);
+      }
+      else{
+        done(null,response);
+      }
+    });
+  }
 
-  exports.create_story = function(name, summary, description, issueType, assignee, priority, done){
+  exports.create_story = function(summary, description, issueType, assignee, done){
     var search_args = {
       headers : {
         'cookie' : credentials,
@@ -34,21 +54,23 @@ var client = new Client();
       data : {
         "fields": {
            "project": {
-              "key": 'TSB-46'
+              "key": "TSB"
             },
-           "summary": 'summary',
-           "description": 'description',
-          //We can pass in an assignee object through get_user
-          "issuetype" : {
-            'name' : 'stuff'
-          }
-          //  "assignee": {
-          //    "name" : assignee
-          //  }
+           "summary": summary,
+           "description": description,
+		   "issuetype": {
+			   //Example Bug
+			"name": issueType
+			},
+            "assignee": {
+				//Example vuhnyuc2
+              "name" : assignee
+            }
          }
        }
      }
      client.post("https://scrumtj.atlassian.net/rest/api/2/issue/", search_args, function(data, response){
+		 console.log(response.statusCode);
        if(response.statusCode == 200){
          done(data);
        }
