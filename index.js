@@ -98,27 +98,27 @@ function listen(){
 
       }
       //Changes a stories status
-      else if (current.includes("set") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
-        if (t == 0) {
-          tj.pauseListening();
-          tj.speak("Please tell me the story name");
-          tj.resumeListening();
-        }
+      else if (current.includes("move") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
+          if (t === 0) {
+            tj.speak("Please tell me the story name");
+          }
 	      var name = "";
 	      var status = "";
           if (current.includes("name is") && (current.length > current.indexOf("name is") + 7)) {
-            name = current.substring(current.indexOf("name is") + 8, current.length);
-            current = current.replace("name is", "");
-      	    console.log(name);
+            if (t === 0) {
+	    name = current.substring(current.indexOf("name is") + 8, current.length);
       	    t = t + 1;
-            tj.pauseListening();
+	    }
+	    console.log(name);
+      	    if (t === 1) {
             tj.speak("Please tell me the status you want to set it to");
-            tj.resumeListening();
+            }
             if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 )) {
               status = current.substring(current.indexOf("status is") + 10, current.length);
          	    current = current.replace("status is", "");
               console.log(status);
               current = "";
+              t = t + 1;
             }
         }
   	    /*if (t === 2) {
