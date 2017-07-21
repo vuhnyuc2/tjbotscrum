@@ -35,6 +35,14 @@ var credentials = {
 var tj = new TJBot(hardware, configuration, credentials);
 var current = "";
 var t = 0;
+var storyCount = 0;
+var movename = "";
+var status = "";
+var createname = "";
+var description = "";
+var issue = "";
+var assignee = "";
+var priority = "";
 function listen(){
   tj.listen(function(msg){
     console.log(current);
@@ -81,27 +89,31 @@ function listen(){
 
       //Creates a story using jira api
       else if (current.includes("create") && current.includes("story")) {
-
-        prompt = false;
-        while (prompt = false) {
-          tj.speak("What is your story name?");
-          var summary = msg;
-          tj.speak("What is your story description?");
-          var description = msg;
-          tj.speak("What is the issue type?");
-          var issueType = msg;
-          tj.speak("Who is assigned this story?");
-          var assignee = msg;
-          tj.speak("What is the priority of this story?");
-          var priority = msg;
-          console.log(summary);
-          console.log(description);
-          console.log(issueType);
-          console.log(assignee);
-          console.log(priority);
-          prompt = true;
+          var arr = ["name", "description", "issue type", "assignee", "priority"];
+          tj.speak("What is your ".concat(arr[storyCount]));
+          if (current.includes("name is") && (storyCount == 0)) {
+            createname = current.substring(current.indexOf("name is") + 8, current.length);
+            storyCount = 1;
+          }
+          if (current.includes("description is") && (storyCount == 1)) {
+            description= current.substring(current.indexOf("description is") + 15, current.length);
+            storyCount = 2;
+          }
+          if (current.includes("issue is") && (storyCount == 2)) {
+            issue = current.substring(current.indexOf("issue is") + 9, current.length);
+            storyCount = 3;
+          }
+          if (current.includes("assignee is") && (storyCount == 3)) {
+            assignee = current.substring(current.indexOf("assignee is") + 12, current.length);
+            storyCount = 4;
+          }
+          if (current.includes("name is") && (storyCount == 4)) {
+            priority = current.substring(current.indexOf("priority is") + 12, current.length);
+            storyCount = 0;
+            current = "";
+          }
         }
-        current = "";
+
 
       }
       //Changes a stories status
@@ -109,24 +121,21 @@ function listen(){
           if (t === 0) {
             tj.speak("Please tell me the story name");
           }
-	      var name = "";
-	      var status = "";
-          if (current.includes("name is") && (current.length > current.indexOf("name is") + 7)) {
-            if (t === 0) {
-	    name = current.substring(current.indexOf("name is") + 8, current.length);
-      	    t = t + 1;
-	    }
-	    console.log(name);
-      	    if (t === 1) {
+          if (t === 1) {
             tj.speak("Please tell me the status you want to set it to");
-            }
-            if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 )) {
-              status = current.substring(current.indexOf("status is") + 10, current.length);
-         	    current = current.replace("status is", "");
-              console.log(status);
-              current = "";
-              t = t + 1;
-            }
+          }
+          if (current.includes("name is") && (current.length > current.indexOf("name is") + 7) && (t==0)) {
+	             movename = current.substring(current.indexOf("name is") + 8, current.length);
+      	       t = t + 1;
+	          }
+	       console.log(movename);
+        }
+        if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 ) && (t==1)) {
+          status = current.substring(current.indexOf("status is") + 10, current.length);
+          current = current.replace("status is", "");
+          console.log(status);
+          current = "";
+          t = 0;
         }
       }
       //Gets stories for a user
@@ -134,7 +143,7 @@ function listen(){
         var username = current.substring(current.indexOf("for") + 4, current.length);
         console.log("user: ",username);
         ScrumMaster.get_stories_by_person(username,function(stories){
-          Num2Word.toWords(stories);
+          tj.speak(Num2Word.toWords(stories));
         });
         current = "";
       }
