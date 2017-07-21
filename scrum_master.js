@@ -21,6 +21,31 @@ exports.stories_done = function(done){
   });
 }
 
+exports.create = function(summ, description, issuetype, assignee, done){
+	var name = "";
+	for(var i = 0; team_members.length; i++){
+		if(team_members[i]['displayName'].includes(disp_name)){
+			name = team_members[i]['key'];
+			break;
+		}
+	}
+  
+  jira.create_story(summ,description,issuetype,name,function(res){
+	  done(res);
+  });
+  
+}
+
+exports.move_status = function(status, issue_id, done){
+	stuff = {'To Do' : 11,
+     'In Progress' : 21,
+     'Done':31 }
+	
+jira.set_task_status(issue_id, '21', function(res){
+    done(res);
+  });
+}
+
 exports.find_stories = function(){
   jira.get_users_issues('a;ldfjiajfl', function(suc,err){
 if(!err){
