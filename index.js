@@ -107,7 +107,7 @@ function listen(){
             assignee = current.substring(current.indexOf("assignee is") + 12, current.length);
             storyCount = 4;
           }
-          if (current.includes("name is") && (storyCount == 4)) {
+          if (current.includes("priority is") && (storyCount == 4)) {
             priority = current.substring(current.indexOf("priority is") + 12, current.length);
             storyCount = 0;
             current = "";
@@ -118,11 +118,11 @@ function listen(){
 
       //Changes a stories status
       else if (current.includes("move") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
-          if (t === 0) {
+          if (t == 0) {
             tj.speak("Please tell me the story name");
             t += 1;
           }
-          if (t === 2) {
+          if (t == 2) {
             tj.speak("Please tell me the status you want to set it to");
             t += 1;
           }
@@ -156,4 +156,3 @@ ScrumMaster.get_cookie(function(){
      listen();
    });
 });
-
