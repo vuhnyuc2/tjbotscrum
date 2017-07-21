@@ -1,0 +1,5 @@
+Watson Start stand up meeting for team THINK Different
+(Watson can give statistics as before team starts the stand up)+(Watson can mention the person who has completed most issues)
+Member 1: (talk about work yesterday on some issue) + (talk about new issue) + (Ask watson how many other issues left for you)
+Member 2: (talk about work yesterday on some issue) + (you realized there should be a new work item base don previous issue) + (watson create issue : Issue is a Bug)
+Member 3: (talk about work yesterday on some issue : Forgot to move issue from "In Progress" to "Done") 
