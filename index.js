@@ -131,12 +131,9 @@ function listen(){
       }
       //Gets stories for a user
       else if (current.includes("get") && current.includes("stories") && current.includes("for")) {
-        tj.speak("Please tell me the name");
-        if (current.includes("name is") {
-          var username = current.substring(current.indexOf("for") + 4, current.length);
-          console.log("user: ",username);
-          current = "";
-        }
+        var username = current.substring(current.indexOf("for") + 4, current.length);
+        console.log("user: ",username);
+        current = "";
       }
   });
 }
