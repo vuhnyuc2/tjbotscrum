@@ -115,7 +115,7 @@ function listen(){
         }
 
 
-      }
+
       //Changes a stories status
       else if (current.includes("move") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
           if (t === 0) {
@@ -127,16 +127,14 @@ function listen(){
           if (current.includes("name is") && (current.length > current.indexOf("name is") + 7) && (t==0)) {
 	             movename = current.substring(current.indexOf("name is") + 8, current.length);
       	       t = t + 1;
-	          }
-	       console.log(movename);
-        }
-        if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 ) && (t==1)) {
-          status = current.substring(current.indexOf("status is") + 10, current.length);
-          current = current.replace("status is", "");
-          console.log(status);
-          current = "";
-          t = 0;
-        }
+               console.log(movename);
+	        }
+          if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 ) && (t==1)) {
+            status = current.substring(current.indexOf("status is") + 10, current.length);
+            console.log(status);
+            current = "";
+            t = 0;
+          }
       }
       //Gets stories for a user
       else if (current.includes("get") && current.includes("stories") && current.includes("for")) {
