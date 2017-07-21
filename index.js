@@ -133,6 +133,9 @@ function listen(){
       else if (current.includes("get") && current.includes("stories") && current.includes("for")) {
         var username = current.substring(current.indexOf("for") + 4, current.length);
         console.log("user: ",username);
+        ScrumMaster.get_stories_by_person(username,function(stories){
+          Num2Word.toWords(stories);
+        });
         current = "";
       }
   });
