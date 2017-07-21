@@ -33,6 +33,7 @@ var credentials = {
 }
 var tj = new TJBot(hardware, configuration, credentials);
 var current = "";
+var t = 0;
 function listen(){
   tj.listen(function(msg){
     console.log(current);
@@ -43,7 +44,7 @@ function listen(){
     if(msg.includes('Watson')){
       current = msg;
     }else if(current.includes('Watson')){
-      current = current.concat(" " + msg);
+      current = current.concat("" + msg);
     }
       //Gives how many points away from your goal
       if (current.includes("points") && current.includes("away") && current.includes("goal")) {
@@ -58,7 +59,7 @@ function listen(){
       //Gives number of stories in a current state
       else if (current.includes("number") && current.includes("stories")) {
         if (current.includes("not started") | current.includes("new")) {
-
+	  tj.speak("what is going on");
           current = "";
         }
         else if (current.includes("progress")) {
@@ -98,25 +99,27 @@ function listen(){
       }
       //Changes a stories status
       else if (current.includes("set") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
-        tj.speak("Please tell me the story name and the status you want to set it to");
-        var t = 0;
-        while (t != 2) {
-          var name = "";
-          var status = "";
-          if (msg.includes("name is")) {
-            temp = msg;
-            name = msg.replace("name is ", "");
-            console.log(name);
-            t = t + 1;
+        tj.speak("Please tell me the story name and the status you want to set it to");        
+	var name = "";
+	var status = "";
+          if (current.includes("name is") && (current.length > current.indexOf("name is") + 7)) {
+            name = current.substring(current.indexOf("name is") + 8, current.length);
+            current = current.replace("name is", "");
+	    tj.speak(name);
+	    console.log(name);
+	    t = t + 1;
           }
-          if (msg.includes("status is")) {
-            temp = msg;
-            status = msg.replace("status is ", "");
+          if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 )) {
+            status = current.substring(current.indexOf("status is") + 10, current.length);
+ 	    current = current.replace("status is", "");
             console.log(status);
-            t = t + 1;
+	    t = t + 1;
           }
-        }
-        current = "";
+	if (t === 2) {
+	  console.log("wjaklda");
+	  current = "";
+	  t = 0;
+	}
       }
 
   });
