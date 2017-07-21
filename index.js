@@ -60,21 +60,21 @@ function listen(){
       //Gives number of stories in a current state
       else if (current.includes("number") && current.includes("stories")) {
         if (current.includes("not started") | current.includes("new")) {
-	  ScrumMaster.stories_todo(function(num){
-		tj.speak(Num2Word.toWords(num));	
-	  });
+      	  ScrumMaster.stories_todo(function(num){
+      		tj.speak(Num2Word.toWords(num));
+    	  });
           current = "";
         }
         else if (current.includes("progress")) {
           ScrumMaster.stories_doing(function(num){
-		tj.speak(Num2Word.toWords(num));	
-	  });	
+		      tj.speak(Num2Word.toWords(num));
+	      });
           current = "";
         }
         else if (current.includes("done") | current.includes("completed") | current.includes("complete") | current.includes("finished")) {
           ScrumMaster.stories_done(function(num){
-		tj.speak(Num2Word.toWords(num));	
-	  });
+      		tj.speak(Num2Word.toWords(num));
+      	 });
           current = "";
         }
       }
@@ -128,17 +128,20 @@ function listen(){
               t = t + 1;
             }
         }
-  	    /*if (t === 2) {
-  	      console.log("wjaklda");
-  	      current = "";
-  	      t = 0;
-  	    }*/
       }
-
+      //Gets stories for a user
+      else if (current.includes("get") && current.includes("stories") && current.includes("for")) {
+        tj.speak("Please tell me the username");
+        var username = msg;
+        console.log("user: ",username);
+        current = "";
+      }
   });
 }
 
 ScrumMaster.get_cookie(function(){
    console.log("got dah cookie");
-   listen();
+   ScrumMaster.get_team_info(function(){
+     listen();
+   });
 });
