@@ -41,7 +41,7 @@ exports.move_status = function(status, issue_id, done){
      'In Progress' : 21,
      'Done':31 }
 	
-jira.set_task_status(issue_id, '21', function(res){
+jira.set_task_status(issue_id, status , function(res){
     done(res);
   });
 }
