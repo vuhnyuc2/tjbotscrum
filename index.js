@@ -89,25 +89,44 @@ function listen(){
 
       //Creates a story using jira api
       else if (current.includes("create") && current.includes("story")) {
-          var arr = ["name", "description", "issue type", "assignee", "priority"];
+        if (t == 0) {
+          tj.speak("What is the name of your story");
+          t += 1;
+        }
+        if (t == 2) {
+          tj.speak("What is the description of your story");
+          t += 1;
+        }
+        if (t == 4) {
+          tj.speak("What is the issueType of your story");
+          t += 1;
+        }
+        if (t == 6) {
+          tj.speak("What is the assignee of your story");
+          t += 1;
+        }
+        if (t == 8) {
+          tj.speak("What is the priority of your story");
+          t += 1;
+        }
           tj.speak("What is your ".concat(arr[storyCount]));
-          if (current.includes("name is") && (storyCount == 0)) {
+          if (current.includes("name is") && (storyCount == 1)) {
             createname = current.substring(current.indexOf("name is") + 8, current.length);
-            storyCount = 1;
+            storyCount = storyCount + 1;
           }
-          if (current.includes("description is") && (storyCount == 1)) {
+          if (current.includes("description is") && (storyCount == 3)) {
             description= current.substring(current.indexOf("description is") + 15, current.length);
-            storyCount = 2;
+            storyCount = storyCount + 1;
           }
-          if (current.includes("issue is") && (storyCount == 2)) {
+          if (current.includes("issue is") && (storyCount == 5)) {
             issue = current.substring(current.indexOf("issue is") + 9, current.length);
-            storyCount = 3;
+            storyCount = storyCount + 1;
           }
-          if (current.includes("assignee is") && (storyCount == 3)) {
+          if (current.includes("assignee is") && (storyCount == 7)) {
             assignee = current.substring(current.indexOf("assignee is") + 12, current.length);
-            storyCount = 4;
+            storyCount = storyCount + 1;
           }
-          if (current.includes("priority is") && (storyCount == 4)) {
+          if (current.includes("priority is") && (storyCount == 9)) {
             priority = current.substring(current.indexOf("priority is") + 12, current.length);
             storyCount = 0;
             current = "";
