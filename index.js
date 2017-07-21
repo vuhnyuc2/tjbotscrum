@@ -99,27 +99,28 @@ function listen(){
       }
       //Changes a stories status
       else if (current.includes("set") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
-        tj.speak("Please tell me the story name and the status you want to set it to");        
-	var name = "";
-	var status = "";
+        tj.speak("Please tell me the story name");
+	      var name = "";
+	      var status = "";
           if (current.includes("name is") && (current.length > current.indexOf("name is") + 7)) {
             name = current.substring(current.indexOf("name is") + 8, current.length);
             current = current.replace("name is", "");
-	    tj.speak(name);
-	    console.log(name);
-	    t = t + 1;
-          }
-          if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 )) {
-            status = current.substring(current.indexOf("status is") + 10, current.length);
- 	    current = current.replace("status is", "");
-            console.log(status);
-	    t = t + 1;
-          }
-	if (t === 2) {
-	  console.log("wjaklda");
-	  current = "";
-	  t = 0;
-	}
+      	    console.log(name);
+      	    t = t + 1;
+            tj.speak("Please tell me the status you want to set it to");
+            if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 )) {
+              status = current.substring(current.indexOf("status is") + 10, current.length);
+         	    current = current.replace("status is", "");
+              console.log(status);
+    	        t = t + 1;
+              current = "";
+            }
+        }
+  	    /*if (t === 2) {
+  	      console.log("wjaklda");
+  	      current = "";
+  	      t = 0;
+  	    }*/
       }
 
   });
