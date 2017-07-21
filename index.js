@@ -48,7 +48,7 @@ function listen(){
     }
       //Gives how many points away from your goal
       if (current.includes("points") && current.includes("away") && current.includes("goal")) {
-
+        tjbot.speak('You are too cheap to buy the extension');
         current = "";
       }
       //Gives % of stories completed
@@ -59,15 +59,15 @@ function listen(){
       //Gives number of stories in a current state
       else if (current.includes("number") && current.includes("stories")) {
         if (current.includes("not started") | current.includes("new")) {
-	  tj.speak("what is going on");
+	        tj.speak(ScrumMaster.get_num_stories_todo());
           current = "";
         }
         else if (current.includes("progress")) {
-
+          tj.speak(ScrumMaster.get_num_stories_doing());
           current = "";
         }
         else if (current.includes("done") | current.includes("completed")) {
-
+          tj.speak(ScrumMaster.get_num_stories_done());
           current = "";
         }
       }
