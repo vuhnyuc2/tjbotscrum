@@ -45,7 +45,7 @@ function listen(){
       //Gives how many points away from your goal
       if (current.includes("points") && current.includes("away") && current.includes("goal")) {
         tj.speak("Gives how many points away from your goal");
-        
+
         current = "";
       }
       //Gives % of stories completed
@@ -78,7 +78,7 @@ function listen(){
         current = "";
         tj.speak("Closes or move a story");
       }
-    
+
   });
 }
 

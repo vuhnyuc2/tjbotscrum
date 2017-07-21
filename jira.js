@@ -25,7 +25,7 @@ var client = new Client();
     }
   }
 
-  exports.create_story = function(summary, description, issueType, assignee, priority){
+  exports.create_story = function(name, summary, description, issueType, assignee, priority, done){
     var search_args = {
       headers : {
         'cookie' : credentials,
@@ -33,20 +33,22 @@ var client = new Client();
       },
       data : {
         "fields": {
-           "project":
-          {
-            "key": 'TSB-46'
-          },
-           "summary": summary,
-           "description": description,
+           "project": {
+              "key": 'TSB-46'
+            },
+           "summary": 'summary',
+           "description": 'description',
           //We can pass in an assignee object through get_user
-           "assignee": {
-             "name" : assignee
-           }
+          "issuetype" : {
+            'name' : 'stuff'
+          }
+          //  "assignee": {
+          //    "name" : assignee
+          //  }
          }
        }
      }
-     client.post("https://scrumtj.atlassian.net/rest/api/2/issue", search_args, function(data, response){
+     client.post("https://scrumtj.atlassian.net/rest/api/2/issue/", search_args, function(data, response){
        if(response.statusCode == 200){
          done(data);
        }
@@ -64,7 +66,7 @@ var client = new Client();
         'Content-Type' : 'application/json'
       },
       data : {
-        'jql' : 'assignee in ('+person+')';
+        'jql' : 'assignee in ('+person+')'
       }
     }
     client.post("https://scrumtj.atlassian.net/rest/api/2/search", search_args, function(data, response){
@@ -84,8 +86,8 @@ var client = new Client();
         'cookie' : credentials,
         'Content-Type' : 'application/json'
       },
-      data : {
-        'groupname' : 'site-admins';
+      parameters : {
+        'groupname' : 'site-admins'
       }
     }
     client.get("https://scrumtj.atlassian.net/rest/api/2/group/member", search_args, function(data, response){
@@ -106,8 +108,8 @@ var client = new Client();
         'cookie' : credentials,
         'Content-Type' : 'application/json'
       },
-      data : {
-        'username' : name;
+      parameters : {
+        'username' : name
       }
     }
     client.get("https://scrumtj.atlassian.net/rest/api/2/user/search", search_args, function(data, response){

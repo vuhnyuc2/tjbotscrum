@@ -1,9 +1,28 @@
 const Story = require('./story');
 var jira = require('./jira');
+var opn = require('opn');
+var team_members = [];
 
+exports.stories_doing = function(done){
+  jira.get_num_stories_doing(function(suc, err){
+    done(suc);
+  });
+}
 
-exports.find_stories = function(tj){
-  jira.get_users_issues('a;ldfjiajfl', function(suc,err){  
+exports.stories_todo = function(done){
+  jira.get_num_stories_todo(function(suc, err){
+    done(suc);
+  });
+}
+
+exports.stories_done = function(done){
+  jira.get_num_stories_done(function(suc, err){
+    done(suc);
+  });
+}
+
+exports.find_stories = function(){
+  jira.get_users_issues('a;ldfjiajfl', function(suc,err){
 if(!err){
      	console.log("did have an error");
 	console.log(suc);
@@ -13,7 +32,30 @@ if(!err){
   });
 }
 
-exports.create_story = function(tj){
+exports.get_team_info = function(done){
+  jira.get_team(function(suc,err){
+    console.log(suc);
+    team_members = suc;
+    done();
+  });
+}
+
+exports.get_stories_by_person = function(disp_name, done){
+  var name = "";
+  for(var i = 0; team_members.length; i++){
+    if(team_members['displayName'].includes(disp_name)){
+      name = team_members['name'];
+      break;
+    }
+  }
+  jira.get_stories_person(name, function(suc,err){
+    console.log(err.statusCode);
+    console.log(suc);
+    done(suc.length);
+  });
+}
+
+exports.create_story = function(){
 
 }
 
