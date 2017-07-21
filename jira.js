@@ -203,6 +203,26 @@ var client = new Client();
       }
     });
   }
+  
+  exports.get_transitions = function(done){
+    var search_args = {
+      headers : {
+        'cookie' : credentials,
+        'Content-Type' : 'application/json'
+      },
+      parameters : {
+        
+      }
+    }
+    client.get("https://scrumtj.atlassian.net/rest/api/2/issue/10012/transitions", search_args, function(data, response){
+      if(response.statusCode == 200){
+        done(data);
+      }
+      else{
+        done(null,response);
+      }
+    });
+  }
 
   exports.set_task_status = function(task, status, done){
     var search_args = {
