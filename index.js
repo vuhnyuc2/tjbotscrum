@@ -89,27 +89,23 @@ function listen(){
 
       //Creates a story using jira api
       else if (current.includes("create") && current.includes("story")) {
-        if (t == 0) {
+        /*
+        if (storyCount == 0) {
           tj.speak("What is the name of your story");
-          t += 1;
+          storyCount += 1;
         }
-        if (t == 2) {
+        if (storyCount == 2) {
           tj.speak("What is the description of your story");
-          t += 1;
+          storyCount += 1;
         }
-        if (t == 4) {
+        if (storyCount == 4) {
           tj.speak("What is the issueType of your story");
-          t += 1;
+          storyCount += 1;
         }
-        if (t == 6) {
+        if (storyCount == 6) {
           tj.speak("What is the assignee of your story");
-          t += 1;
+          storyCount += 1;
         }
-        if (t == 8) {
-          tj.speak("What is the priority of your story");
-          t += 1;
-        }
-          tj.speak("What is your ".concat(arr[storyCount]));
           if (current.includes("name is") && (storyCount == 1)) {
             createname = current.substring(current.indexOf("name is") + 8, current.length);
             storyCount = storyCount + 1;
@@ -125,38 +121,46 @@ function listen(){
           if (current.includes("assignee is") && (storyCount == 7)) {
             assignee = current.substring(current.indexOf("assignee is") + 12, current.length);
             storyCount = storyCount + 1;
-          }
-          if (current.includes("priority is") && (storyCount == 9)) {
-            priority = current.substring(current.indexOf("priority is") + 12, current.length);
-            storyCount = 0;
             current = "";
-          }
+            storyCount = 0;
+          }*/
+          summary = "Hello World";
+          description = "Important Story";
+          issue = "Bug";
+          assignee = "Justin";
+          scrum_master.create(summary, description, issue, assignee, function(res){
+            tj.speak("The task has been created");
+          });
         }
 
 
 
       //Changes a stories status
       else if (current.includes("move") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
-          if (t == 0) {
-            tj.speak("Please tell me the story name");
-            t += 1;
-          }
-          if (t == 2) {
-            tj.speak("Please tell me the status you want to set it to");
-            t += 1;
-          }
-          if (current.includes("name is") && (current.length > current.indexOf("name is") + 7) && (t==1)) {
-	             movename = current.substring(current.indexOf("name is") + 8, current.length);
-      	       t = t + 1;
-               console.log(movename);
-	        }
-          if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 ) && (t==3)) {
-            status = current.substring(current.indexOf("status is") + 10, current.length);
-            console.log(status);
-            current = "";
-            t = 0;
-          }
+          // if (t == 0) {
+          //   tj.speak("Please tell me the story name");
+          //   t += 1;
+          // }
+          // if (t == 2) {
+          //   tj.speak("Please tell me the status you want to set it to");
+          //   t += 1;
+          // }
+          // if (current.includes("name is") && (current.length > current.indexOf("name is") + 7) && (t==1)) {
+	        //      movename = current.substring(current.indexOf("name is") + 8, current.length);
+      	  //      t = t + 1;
+          //      console.log(movename);
+	        // }
+          // if (current.includes("status is") && (current.length > current.indexOf("status is") + 9 ) && (t==3)) {
+          //   status = current.substring(current.indexOf("status is") + 10, current.length);
+          //   console.log(status);
+          //   current = "";
+          //   t = 0;
+          // }
+          scrum_master.move_status("10036","21",function(res){
+            tj.speak("The task has been moved to in progress");
+          })
       }
+
       //Gets stories for a user
       else if (current.includes("get") && current.includes("stories") && current.includes("for")) {
         var username = current.substring(current.indexOf("for") + 4, current.length);
