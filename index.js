@@ -37,7 +37,10 @@ function listen(){
   tj.listen(function(msg){
     console.log(current);
     //Resets if there is a current watson call, otherwise adds watson to check for function call
-    if(msg.includes('Watson')){ScrumMaster.find_stories(tj);
+    if (current.length > 500) {
+      current = [];
+    }
+    if(msg.includes('Watson')){
       current = msg;
     }else if(current.includes('Watson')){
       current = current.concat(" " + msg);
@@ -45,7 +48,7 @@ function listen(){
       //Gives how many points away from your goal
       if (current.includes("points") && current.includes("away") && current.includes("goal")) {
         tj.speak("Gives how many points away from your goal");
-        
+
         current = "";
       }
       //Gives % of stories completed
@@ -54,12 +57,12 @@ function listen(){
         tj.speak("Gives % of stories completed");
       }
       //Gives number of stories in a current state
-      else if (current.includes("number of stories")) {
-        if (current.includes("not started")) {
+      else if (current.includes("number") && current.includes("stories")) {
+        if (current.includes("not started") | current.includes("new")) {
           current = "";
           tj.speak("Gives number of stories not started in a current state");
         }
-        else if (current.includes("in progress")) {
+        else if (current.includes("progress")) {
           current = "";
           tj.speak("Gives number of stories in progress in a current state");
         }
@@ -68,17 +71,38 @@ function listen(){
           tj.speak("Gives number of stories done in a current state");
         }
       }
+
       //Creates a story using jira api
       else if (current.includes("create") && current.includes("story")) {
+
+        prompt = false;
+        while (prompt = false) {
+          tj.speak("What is your story name?");
+          var summary = msg;
+          tj.speak("What is your story description?");
+          var description = msg;
+          tj.speak("What is the issue type?");
+          var issueType = msg;
+          tj.speak("Who is assigned this story?");
+          var assignee = msg;
+          tj.speak("What is the priority of this story?");
+          var priority = msg;
+          console.log(summary);
+          console.log(description);
+          console.log(issueType);
+          console.log(assignee);
+          console.log(priority);
+          prompt = true;
+        }
         current = "";
-        tj.speak("Creates a story using jira api");
+
       }
       //Closes or move a story
       else if ((current.includes("move") | current.includes("close")) && (current.includes("story"))) {
         current = "";
         tj.speak("Closes or move a story");
       }
-    
+
   });
 }
 
