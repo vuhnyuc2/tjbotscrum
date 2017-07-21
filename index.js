@@ -47,28 +47,27 @@ function listen(){
     }
       //Gives how many points away from your goal
       if (current.includes("points") && current.includes("away") && current.includes("goal")) {
-        tj.speak("Gives how many points away from your goal");
 
         current = "";
       }
       //Gives % of stories completed
-      else if ((current.includes("percent")|(current.includes("percentage"))) && current.includes("stories") && current.includes("completed")) {
+      else if ((current.includes("percent")|(current.includes("percentage"))) && (current.includes("stories") | current.includes("story"))&& current.includes("completed")) {
+
         current = "";
-        tj.speak("Gives % of stories completed");
       }
       //Gives number of stories in a current state
       else if (current.includes("number") && current.includes("stories")) {
         if (current.includes("not started") | current.includes("new")) {
+
           current = "";
-          tj.speak("Gives number of stories not started in a current state");
         }
         else if (current.includes("progress")) {
+
           current = "";
-          tj.speak("Gives number of stories in progress in a current state");
         }
         else if (current.includes("done") | current.includes("completed")) {
+
           current = "";
-          tj.speak("Gives number of stories done in a current state");
         }
       }
 
@@ -97,10 +96,27 @@ function listen(){
         current = "";
 
       }
-      //Closes or move a story
-      else if ((current.includes("move") | current.includes("close")) && (current.includes("story"))) {
+      //Changes a stories status
+      else if (current.includes("set") && (current.includes("story") | current.includes("task")) && (current.includes("status"))) {
+        tj.speak("Please tell me the story name and the status you want to set it to");
+        var t = 0;
+        while (t != 2) {
+          var name = "";
+          var status = "";
+          if (msg.includes("name is")) {
+            temp = msg;
+            name = msg.replace("name is ", "");
+            console.log(name);
+            t = t + 1;
+          }
+          if (msg.includes("status is")) {
+            temp = msg;
+            status = msg.replace("status is ", "");
+            console.log(status);
+            t = t + 1;
+          }
+        }
         current = "";
-        tj.speak("Closes or move a story");
       }
 
   });
